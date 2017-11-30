@@ -7,14 +7,14 @@ window.onload = function() {
 var intervalId;
 var clockRunning = false;
 
-$(document).ready(function () {
-	$("button[name=start]").on('click', function (e) {
-	$(this).off(e);
-	$('td').on('click', function (e) {
-	$(this).addClass('clicked').off(e);
-		});
-	});
-});
+// $(document).ready(function () {
+// 	$("button[name=start]").on('click', function (e) {
+// 	$(this).off(e);
+// 	$('td').on('click', function (e) {
+// 	$(this).addClass('clicked').off(e);
+// 		});
+// 	});
+// });
 
 //create an object with Trivia questions and answers
 
@@ -31,37 +31,43 @@ var game = {
         var intervalId=setInterval(game.count,1000);
         clockRunning = true;
 
-        game.showOptions();
+        game.showOptions(0,game.triviaQuestions[0]);
+        
 
   }
 },
 
-  showOptions: function() {
+  showOptions: function(ind,questionname) {
+console.log(ind);
+  	        //for (var i = 0; i < game.triviaQuestions.length; i++) {
+              //$('#question').html(game.triviaQuestions[i]);
+              $('#question').html(questionname);
 
-  	        for (var i = 0; i < game.triviaQuestions.length; i++) {
-        	$('#question').html(game.triviaQuestions[i]);
-
-        	      for (var j = 0; j < game.triviaAnswers.length; j++) {
+        	      for (var j = 0; j < game.triviaAnswers[ind].length; j++) {
         
 				        var optionBtn = $("<button>");
 
 				        optionBtn.addClass("letter-button letter letter-button-color");
 
-				        optionBtn.attr("data-option",game.triviaAnswers[i][j]);
-				        console.log(game.triviaAnswers[i][j]);
-				        optionBtn.text(game.triviaAnswers[i][j]);
+				        optionBtn.attr("data-option",game.triviaAnswers[ind][j]);
+				        console.log(game.triviaAnswers[ind][j]);
+                optionBtn.text(game.triviaAnswers[ind][j]);
+               
 
 				        $("#options").append(optionBtn);
-				        $("#options").append('<br>');
+                $("#options").append('<br>');
+                
+                optionBtn.onclick(game.showOptions(ind+1,game.triviaQuestions[ind+1]));
+                
 
 				      }
         	        	// add wait until user selects a button
-        	        	$(this).off(event)
+        	        	//$(this).off(event)
         	        	
 
         			// button click event to show the result
         	
-        }
+        //}
         
   },
 
