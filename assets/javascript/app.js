@@ -6,15 +6,9 @@ window.onload = function() {
 };
 var intervalId;
 var clockRunning = false;
+var resultText;
 
-// $(document).ready(function () {
-// 	$("button[name=start]").on('click', function (e) {
-// 	$(this).off(e);
-// 	$('td').on('click', function (e) {
-// 	$(this).addClass('clicked').off(e);
-// 		});
-// 	});
-// });
+
 
 //create an object with Trivia questions and answers
 
@@ -23,7 +17,8 @@ var game = {
 	triviaQuestions : ["Question1?", "Question2?", "Question3?", "Question4?"],
 
 	triviaAnswers : [["abc1", "efg1", "hij1", "klm1"],["abc2", "efg2", "hij2", "klm2"],["abc3", "efg3", "hij3", "klm3"],["abc4", "efg4", "hij4", "klm4"]],
-
+  correctAnswers : ["efg1", "hij2", "abc3", "klm4"],
+  imageAnswers : ['../images/Pokemon.png', '../images/Pokemon.png', '../images/Pokemon.png', '../images/Pokemon.png'],
 
   start: function() {
 
@@ -56,26 +51,60 @@ console.log(ind);
 
 				        $("#options").append(optionBtn);
                 $("#options").append('<br>');
-                
-                optionBtn.onclick(game.showOptions(ind+1,game.triviaQuestions[ind+1]));
+                // add wait until user selects a button
+                // button click event to show the result
+                $("#options").on('click', game.correctAnswer());
+                setTimeout(game.start(), 3000);
+                //move to next question
+                game.showOptions(ind+1,game.triviaQuestions[ind+1]);
+
+                ;
                 
 
 				      }
-        	        	// add wait until user selects a button
-        	        	//$(this).off(event)
+        	        	
+        	        	
         	        	
 
-        			// button click event to show the result
+        			
         	
         //}
         
   },
 
   correctAnswer: function(){
-  	
+    //compare button click with results
+    //save selection in a variable
+    var savedSelection;
+    if(savedSelection.indexOf(game.correctAnswers))
+    {
+      var n = game.correctAnswers.indexOf(savedSelection);
+      resultText = "You are correct"
+      $("#options").html(resultText);
+      var imgURL = game.imageAnswers[n];
+
+      // Creating an element to hold the image
+      var image = $("<img>").attr("src", imgURL);
+
+      // Appending the image
+      $("#options").append(image);
+
+    }
+    else
+    {
+      var n = indexOf(game.triviaQuestions);
+      resultText = "You are NOT correct. Correct Answer is: ";
+      var imgURL = game.imageAnswers[n];
+      
+      // Creating an element to hold the image
+      var image = $("<img>").attr("src", imgURL);
+      
+      // Appending the image
+      $("#options").append(image);
+    }
 
   },
-
+ 
     count: function() {
     
 	      game.time--;
