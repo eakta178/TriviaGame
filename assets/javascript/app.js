@@ -27,7 +27,7 @@ var game = {
   start: function() {
       console.log('im inside start')
         if (!clockRunning) {
-        var intervalId=setInterval(game.count,1000);
+        var intervalId=setInterval(this.count,1000);
         clockRunning = true;
 
         game.showOptions(indx,game.triviaQuestions[indx]);
@@ -40,6 +40,7 @@ var game = {
 console.log(questionname);
   	        
               $('#question').html(questionname);
+              $('#options').empty();
               var len =game.triviaAnswers[ind].length;
 
         	      for (var j = 0; j < len; j++) {
@@ -66,7 +67,7 @@ console.log(questionname);
                 var savedSelection= $(this).text();
                 game.correctAnswer(savedSelection);
                 //reset timer
-                game.reset();
+                
                 indx++;
                 if(indx>=game.triviaQuestions.length){
                   game.showFinalScreen();
@@ -76,7 +77,9 @@ console.log(questionname);
                 //move to next question
                
                 console.log(indx);
+                clockRunning = false;
                 setTimeout(game.start(),3000);
+                game.reset();
                 }
                 
                 
