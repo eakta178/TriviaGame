@@ -69,19 +69,7 @@ console.log(questionname);
                 game.reset();
                 indx++;
                 if(indx>=game.triviaQuestions.length){
-                  setTimeout(game.stop(), 3000);
-                  $('#start').text('Start Over?');
-                  
-                  $('#question').html('<h2>'+ 'All Done, Here is is how you did!!!'+'</h2>');
-                  $('#options').html('<h3>'+ 'Correct Answers: '+ win +'<br>' +'</h3>');
-                  $('#options').append('<h3>'+ 'Not Correct Answers: '+ loss +'<br>' +'</h3>')
-                  $('#options').append('<h3>'+ 'Unasnswerd: '+ noAns +'<br>' +'</h3>')
-
-                  $('#options').append('<br>'+ '<br>');
-                  $("#start").on('click', function(){
-                    game.restart();
-                    game.start();
-                  });
+                  game.showFinalScreen();
 
                 }
                 else{
@@ -108,7 +96,7 @@ console.log(questionname);
       var n = game.correctAnswers.indexOf(selectedOption);
       console.log(n);
       resultText = "You are correct. The right answer is: "+ selectedOption;
-      $("#options").html('<h2>'+ resultText + '</h2>');
+      $("#options").html('<h3>'+ resultText + '</h3>');
       var imgURL = game.imageAnswers[n];
       // Creating an element to hold the image
       var image = $("<img>").attr("src", imgURL);
@@ -123,7 +111,7 @@ console.log(questionname);
       console.log('entered incorrect');
       console.log(indx);
       resultText = "You are NOT correct. The right Answer is: "+ game.correctAnswers[indx];
-      $("#options").html('<h2>'+ resultText + '</h2>');
+      $("#options").html('<h3>'+ resultText + '</h3>');
       var imgURL = game.imageAnswers[indx];
       // Creating an element to hold the image
       var image = $("<img>").attr("src", imgURL);
@@ -180,7 +168,21 @@ console.log(questionname);
 
     return minutes + ":" + seconds;
   },
+showFinalScreen : function(){
+    setTimeout(game.stop(), 3000);
+    $('#start').text('Start Over?');
+    
+    $('#question').html('<h2>'+ 'All Done, Here is is how you did!!!'+'</h2>');
+    $('#options').html('<h3>'+ 'Correct Answers: '+ win +'<br>' +'</h3>');
+    $('#options').append('<h3>'+ 'Not Correct Answers: '+ loss +'<br>' +'</h3>')
+    $('#options').append('<h3>'+ 'Unasnswerd: '+ noAns +'<br>' +'</h3>')
 
+    $('#options').append('<br>'+ '<br>');
+    $("#start").on('click', function(){
+      game.restart();
+      game.start();
+    });
+},
  
 };
 
