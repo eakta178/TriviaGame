@@ -7,7 +7,7 @@ window.onload = function() {
 var intervalId;
 var clockRunning = false;
 var resultText;
-var indx = 3;
+var indx = 0;
 var win=0;
 var loss =0;
 var noAns = 0;
