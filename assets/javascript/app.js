@@ -22,7 +22,7 @@ var game = {
 
 	triviaAnswers : [["Nidorino", "Pikachu", "Caterpie", "Ash"],["Nidorino", "Pikachu", "Caterpie", "Ash"],["Cilan", "Iris", "Iris and Cilan", "No One"],["Munchlax", "Charmander", "Sableye", "The Hairy Bug Pokemon"]],
   correctAnswers : ["Ash", "Pikachu", "Iris and Cilan", "Sableye"],
-  imageAnswers : ['assets/images/Ash.png', 'assets/images/Pikachu.jpg', 'assets/images/iriscilan.jpg', 'assets/images/sableye.png'],
+  imageAnswers : ['assets/images/Ashgiphy.gif', 'assets/images/Pikachugiphy.gif', 'assets/images/IrisCilangiphy.gif', 'assets/images/Sableyegiphy.gif'],
 
   start: function() {
       console.log('im inside start')
@@ -108,7 +108,7 @@ console.log(questionname);
       var n = game.correctAnswers.indexOf(selectedOption);
       console.log(n);
       resultText = "You are correct. The right answer is: "+ selectedOption;
-      $("#options").html(resultText);
+      $("#options").html('<h2>'+ resultText + '</h2>');
       var imgURL = game.imageAnswers[n];
       // Creating an element to hold the image
       var image = $("<img>").attr("src", imgURL);
@@ -123,7 +123,7 @@ console.log(questionname);
       console.log('entered incorrect');
       console.log(indx);
       resultText = "You are NOT correct. The right Answer is: "+ game.correctAnswers[indx];
-      $("#options").html(resultText);
+      $("#options").html('<h2>'+ resultText + '</h2>');
       var imgURL = game.imageAnswers[indx];
       // Creating an element to hold the image
       var image = $("<img>").attr("src", imgURL);
