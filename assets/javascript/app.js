@@ -12,6 +12,7 @@ var indx = 0;
 var win=0;
 var loss =0;
 var noAns = 0;
+var mytimeout;
 
 
 
@@ -54,46 +55,20 @@ console.log(questionname);
 				        optionBtn.attr("data-option",game.triviaAnswers[ind][j]);
 				        
                 optionBtn.text(game.triviaAnswers[ind][j]);
-               
 
 				        $("#options").append(optionBtn);
                 $("#options").append('<br>');
 
-                
-                
               }
+              console.log(game.time);
+              mytimeout= setTimeout(function(){game.NoAnswer()},30000)
               
               // button click event to show the result
               $(".option").on('click', function() {
                 //save selection in a variable
                 var savedSelection= $(this).text();
                 game.correctAnswer(savedSelection);
-                //reset timer
-                
-
-                game.reset();
-                
-                indx++;
-                if(indx>=game.triviaQuestions.length){
-
-                  setTimeout(function(){game.showFinalScreen()},3000)
-                  game.stop();
-                  //game.restart();
-                  // indx = 0;
-                  
-                  
-                  
-                }
-                else{
-                //move to next question
-               
-                console.log('next index is '+indx);
-                
-                game.stop();
-                
-                setTimeout(function(){game.start()},3000)
-                
-                }
+                game.showNextQuestion();
                 
                 
                 });
@@ -105,19 +80,19 @@ console.log(questionname);
     //compare button click with results
     console.log(selectedOption);
     
-    if(game.correctAnswers.indexOf(selectedOption) != -1)
+    if(selectedOption === game.correctAnswers[indx])
+    
     {
       console.log('entered correct');
       win++;
-      var n = game.correctAnswers.indexOf(selectedOption);
-      console.log(n);
+      
+      console.log(indx);
       resultText = "You are correct. The right answer is: "+ selectedOption;
       $('#options').empty();
       $("#options").html('<h3>'+ resultText + '</h3>');
-      var imgURL = game.imageAnswers[n];
+      var imgURL = game.imageAnswers[indx];
       // Creating an element to hold the image
-      var image = $("<img>");
-      image.attr("src", imgURL);
+      var image = $("<img>").attr("src", imgURL);
 
       // Appending the image
       $("#options").append(image);
@@ -139,7 +114,43 @@ console.log(questionname);
       // Appending the image
       $("#options").append(image);
     }
-
+  }, 
+  NoAnswer: function(){
+    noAns++;
+    console.log('entered unanswered');
+    console.log(indx);
+    resultText = "Time is up. The right Answer is: "+ game.correctAnswers[indx];
+    $('#options').empty();
+    $("#options").html('<h3>'+ resultText + '</h3>');
+    var imgURL = game.imageAnswers[indx];
+    // Creating an element to hold the image
+    var image = $("<img>").attr("src", imgURL);
+    
+    // Appending the image
+    $("#options").append(image);
+    clearTimeout(mytimeout);
+    
+    game.showNextQuestion();
+ 
+  },
+  showNextQuestion: function(){
+    //reset timer
+    game.reset();
+    indx++;
+    if(indx>=game.triviaQuestions.length){
+  
+    setTimeout(function(){game.showFinalScreen()},3000)
+    game.stop();
+  
+    }
+    else{
+    //move to next question
+     console.log('next index is '+indx);
+                  
+    game.stop();
+    setTimeout(function(){game.start()},3000)
+                  
+    }
   },
  
     count: function() {
@@ -155,16 +166,11 @@ console.log(questionname);
     console.log('i was inside stop');
     clearInterval(intervalId);
     clockRunning = false;
-    // $('#question').empty();
-    // $('#options').empty();
+    clearTimeout(mytimeout);
     
-	 
   },
 
   restart: function(){
-    // $('#question').empty();
-    // $('#options').empty();
-    // $('#display').empty();
     
     indx=0;
     win=0;
@@ -181,9 +187,7 @@ console.log(questionname);
 
   },
 
-  startagain: function(){
-    game.start();
-  },
+
     timeConverter: function(t) {
 
     var minutes = Math.floor(t / 60);
@@ -204,9 +208,8 @@ console.log(questionname);
   },
 showFinalScreen : function(){
     setTimeout(game.stop(), 3000);
-    
    
-    
+    $('#restart').attr("style", "display: visible");
     $('#restart').text('Start Over?');
     $('#restart').addClass("btn btn-success");
     $("#display").text('Time remaining: '+ "00:00");
@@ -216,17 +219,14 @@ showFinalScreen : function(){
     $('#options').append('<h3>'+ 'Unasnswerd: '+ noAns +'<br>' +'</h3>')
 
     $('#options').append('<br>'+ '<br>');
+    clearTimeout(mytimeout);
     $("#restart").on('click', function(){
-      // game.stop();
-      // game.restart();
-      // game.reset();
-      // game.start();
-      // game.stop();
+      
       game.restart();
       game.start();
-      $('#restart').remove();
+      $('#restart').hide();
       
-      //setTimeout(function(){game.start()},3000)
+      
     });
 },
  

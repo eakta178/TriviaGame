@@ -1,4 +1,9 @@
-body{background-image: url('../images/Pokemon.jpg'); background-size: cover;
+html{height: 100%;}
+body{background-image: url('../images/Pokemon.jpg');
+    height: 100%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     font-family: 'Muli', sans-serif;}
 
 #title{font-weight: bolder; color: rgb(139,0,0);}
