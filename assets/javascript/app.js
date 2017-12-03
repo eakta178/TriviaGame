@@ -25,11 +25,12 @@ var game = {
   imageAnswers : ['assets/images/Ashgiphy.gif', 'assets/images/Pikachugiphy.gif', 'assets/images/IrisCilangiphy.gif', 'assets/images/Sableyegiphy.gif'],
 
   start: function() {
-      console.log('im inside start')
+      
         if (!clockRunning) {
-        var intervalId=setInterval(this.count,1000);
+        //var intervalId=setInterval(game.count,1000);
+        intervalId=setInterval(game.count,1000);
         clockRunning = true;
-
+        console.log('im inside start and current index is'+ indx)
         game.showOptions(indx,game.triviaQuestions[indx]);
         
 
@@ -60,13 +61,16 @@ console.log(questionname);
                 
                 
               }
-              // add wait until user selects a button
+              
               // button click event to show the result
               $(".option").on('click', function() {
                 //save selection in a variable
                 var savedSelection= $(this).text();
                 game.correctAnswer(savedSelection);
                 //reset timer
+                
+
+                game.reset();
                 
                 indx++;
                 if(indx>=game.triviaQuestions.length){
@@ -76,10 +80,17 @@ console.log(questionname);
                 else{
                 //move to next question
                
-                console.log(indx);
-                clockRunning = false;
-                setTimeout(game.start(),3000);
-                game.reset();
+                console.log('next index is '+indx);
+                
+                game.stop();
+                // game.start();
+
+                // setTimeout(() => {
+                  
+                // }, 1000);(game.start());
+                //setTimeout(game.startagain(),65000);
+                setTimeout(function(){game.start()},3000)
+                
                 }
                 
                 
@@ -99,13 +110,16 @@ console.log(questionname);
       var n = game.correctAnswers.indexOf(selectedOption);
       console.log(n);
       resultText = "You are correct. The right answer is: "+ selectedOption;
+      $('#options').empty();
       $("#options").html('<h3>'+ resultText + '</h3>');
       var imgURL = game.imageAnswers[n];
       // Creating an element to hold the image
-      var image = $("<img>").attr("src", imgURL);
+      var image = $("<img>");
+      image.attr("src", imgURL);
 
       // Appending the image
       $("#options").append(image);
+      console.log(image)
 
     }
     else
@@ -114,6 +128,7 @@ console.log(questionname);
       console.log('entered incorrect');
       console.log(indx);
       resultText = "You are NOT correct. The right Answer is: "+ game.correctAnswers[indx];
+      $('#options').empty();
       $("#options").html('<h3>'+ resultText + '</h3>');
       var imgURL = game.imageAnswers[indx];
       // Creating an element to hold the image
@@ -138,10 +153,16 @@ console.log(questionname);
     console.log('i was inside stop')
     clearInterval(intervalId);
     clockRunning = false;
+    //  $('#question').empty();
+    // $('#options').empty();
+    
 	 
   },
 
   restart: function(){
+    $('#question').empty();
+    $('#options').empty();
+    $('#display').empty();
     indx = 0;
     win=0;
     loss =0;
@@ -152,6 +173,10 @@ console.log(questionname);
     game.time=30;
     $("#display").text('Time remaining: '+ "00:00");
 
+  },
+
+  startagain: function(){
+    game.start();
   },
     timeConverter: function(t) {
 
@@ -182,7 +207,9 @@ showFinalScreen : function(){
 
     $('#options').append('<br>'+ '<br>');
     $("#start").on('click', function(){
+      game.stop();
       game.restart();
+      game.reset();
       game.start();
     });
 },
