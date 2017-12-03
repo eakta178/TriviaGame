@@ -3,6 +3,7 @@
 window.onload = function() {
 
   $("#start").on("click", game.start);
+  
 };
 var intervalId;
 var clockRunning = false;
@@ -25,7 +26,7 @@ var game = {
   imageAnswers : ['assets/images/Ashgiphy.gif', 'assets/images/Pikachugiphy.gif', 'assets/images/IrisCilangiphy.gif', 'assets/images/Sableyegiphy.gif'],
 
   start: function() {
-      
+        $('#start').remove();
         if (!clockRunning) {
         //var intervalId=setInterval(game.count,1000);
         intervalId=setInterval(game.count,1000);
@@ -74,8 +75,14 @@ console.log(questionname);
                 
                 indx++;
                 if(indx>=game.triviaQuestions.length){
-                  game.showFinalScreen();
 
+                  setTimeout(function(){game.showFinalScreen()},3000)
+                  game.stop();
+                  //game.restart();
+                  // indx = 0;
+                  
+                  
+                  
                 }
                 else{
                 //move to next question
@@ -83,12 +90,7 @@ console.log(questionname);
                 console.log('next index is '+indx);
                 
                 game.stop();
-                // game.start();
-
-                // setTimeout(() => {
-                  
-                // }, 1000);(game.start());
-                //setTimeout(game.startagain(),65000);
+                
                 setTimeout(function(){game.start()},3000)
                 
                 }
@@ -150,23 +152,27 @@ console.log(questionname);
   },
 
     stop: function() {
-    console.log('i was inside stop')
+    console.log('i was inside stop');
     clearInterval(intervalId);
     clockRunning = false;
-    //  $('#question').empty();
+    // $('#question').empty();
     // $('#options').empty();
     
 	 
   },
 
   restart: function(){
-    $('#question').empty();
-    $('#options').empty();
-    $('#display').empty();
-    indx = 0;
+    // $('#question').empty();
+    // $('#options').empty();
+    // $('#display').empty();
+    
+    indx=0;
     win=0;
     loss =0;
     noAns = 0;
+    console.log('im inside restart and current index is ' + indx)
+    console.log('im inside restart and current win is ' + win)
+    console.log('im inside restart and current loss is ' + loss)
   },
   reset: function() {
     
@@ -198,19 +204,29 @@ console.log(questionname);
   },
 showFinalScreen : function(){
     setTimeout(game.stop(), 3000);
-    $('#start').text('Start Over?');
     
+   
+    
+    $('#restart').text('Start Over?');
+    $('#restart').addClass("btn btn-success");
+    $("#display").text('Time remaining: '+ "00:00");
     $('#question').html('<h2>'+ 'All Done, Here is is how you did!!!'+'</h2>');
     $('#options').html('<h3>'+ 'Correct Answers: '+ win +'<br>' +'</h3>');
     $('#options').append('<h3>'+ 'Not Correct Answers: '+ loss +'<br>' +'</h3>')
     $('#options').append('<h3>'+ 'Unasnswerd: '+ noAns +'<br>' +'</h3>')
 
     $('#options').append('<br>'+ '<br>');
-    $("#start").on('click', function(){
-      game.stop();
+    $("#restart").on('click', function(){
+      // game.stop();
+      // game.restart();
+      // game.reset();
+      // game.start();
+      // game.stop();
       game.restart();
-      game.reset();
       game.start();
+      $('#restart').remove();
+      
+      //setTimeout(function(){game.start()},3000)
     });
 },
  
